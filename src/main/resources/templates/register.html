@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Crear Cuenta | ToDo Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-vibrant d-flex align-items-center min-vh-100 py-5">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+            <div class="card card-auth p-4 p-sm-5">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold" style="color: var(--text-main);">Crea tu cuenta</h2>
+                    <p class="text-muted">Empieza a organizarte hoy mismo</p>
+                </div>
+
+                <form th:action="@{/register}" th:object="${user}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted">Correo Electrónico</label>
+                        <input type="email" th:field="*{email}" class="form-control-modern w-100 bg-white"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="ejemplo@correo.com" required>
+                        <div class="invalid-feedback" th:errors="*{email}"></div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted">Contraseña</label>
+                        <input type="password" th:field="*{password}" class="form-control-modern w-100 bg-white"
+                               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Mínimo 6 caracteres" required>
+                        <div class="invalid-feedback" th:errors="*{password}"></div>
+                    </div>
+                    <button type="submit" class="btn btn-vibrant w-100 mb-3">Registrarme</button>
+                </form>
+
+                <p class="text-center text-muted small mb-4">Al registrarte, aceptas nuestros términos.</p>
+
+                <div class="text-center border-top pt-3">
+                    <a th:href="@{/login}" class="fw-bold text-decoration-none" style="color: #a855f7;">¿Ya tienes cuenta? Entra aquí</a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/" class="text-white-50 text-decoration-none small"><i class="bi bi-arrow-left"></i> Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
