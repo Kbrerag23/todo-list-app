@@ -20,9 +20,9 @@ public class TaskService {
             Long taskId = taskIds.get(i);
             Task task = taskRepository.findById(taskId).orElse(null);
 
-            // Verificamos que la tarea exista y sea del usuario logueado
+
             if (task != null && task.getUser().getId().equals(user.getId())) {
-                task.setPosition(i); // El índice 'i' será la nueva posición (0, 1, 2...)
+                task.setPosition(i);
                 taskRepository.save(task);
             }
         }
@@ -48,7 +48,7 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    // Seguridad adicional a nivel de servicio: garantizar que la tarea es del usuario
+
     private Task getTaskIfBelongsToUser(Long taskId, User user) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Tarea no encontrada"));

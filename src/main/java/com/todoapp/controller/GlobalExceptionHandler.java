@@ -10,6 +10,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SecurityException.class)
     public String handleSecurityException(SecurityException ex, Model model) {
         model.addAttribute("error", "Acceso denegado a este recurso.");
-        return "error"; // Requeriría un error.html básico
+        return "error";
     }
 }

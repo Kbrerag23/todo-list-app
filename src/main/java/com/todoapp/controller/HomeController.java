@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        return "index"; // Carga la landing page
+        return "index";
     }
 }
