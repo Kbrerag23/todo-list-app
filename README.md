@@ -1,5 +1,3 @@
-¡Claro que sí! A veces menos es más. Aquí tienes una versión mucho más directa, limpia y directa al grano, ideal para que cualquiera lo lea y ponga a funcionar el proyecto en 2 minutos.
-
 ToDo Pro
 Una aplicación web moderna y rápida para gestionar tus tareas del día a día. Cuenta con registro seguro, diseño adaptable a móviles y la posibilidad de ordenar tus tareas arrastrándolas con el ratón o el dedo.
 
