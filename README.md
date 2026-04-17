@@ -31,7 +31,9 @@ Crea una base de datos nueva llamada exactamente: todo_app_db.
 Abre el proyecto en tu editor y busca el archivo src/main/resources/application.properties. Revisa que tu usuario y contraseña de MySQL sean correctos:
 
 spring.datasource.url=jdbc:mysql://localhost:3306/todo_app_db?useSSL=false&serverTimezone=UTC
+
 spring.datasource.username=root    <-- Pon aquí tu usuario (por defecto suele ser root)
+
 spring.datasource.password=        <-- Pon aquí tu contraseña (por defecto suele estar vacío en XAMPP)
 
 
