@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
-
         .task-done .task-title {
             text-decoration: line-through;
             color: #94a3b8;
@@ -43,6 +42,14 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
 
+            <div th:if="${user != null and user.role == 'ADMIN'}" class="alert alert-warning border-warning shadow-sm d-flex justify-content-between align-items-center mb-4" style="border-radius: 15px;">
+                <div>
+                    <i class="bi bi-shield-lock-fill fs-5 me-2 text-dark"></i>
+                    <strong class="text-dark">Modo Administrador</strong>
+                    <span class="text-dark small d-none d-sm-inline"> - Tienes acceso a la gestión de usuarios.</span>
+                </div>
+                <a th:href="@{/admin/users}" class="btn btn-dark btn-sm fw-bold rounded-pill px-4">Ir al Panel</a>
+            </div>
             <div class="card card-auth mb-5 p-2">
                 <div class="card-body">
                     <form th:action="@{/tasks}" th:object="${newTask}" method="post" class="row g-3 align-items-center">
@@ -104,11 +111,11 @@
 
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card-auth"> <div class="modal-header border-0 pb-0">
-            <h5 class="modal-title fw-bold">Editar Tarea</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
+        <div class="modal-content card-auth">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Editar Tarea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
             <form id="editForm" method="post" th:action="@{/tasks}">
                 <div class="modal-body">
                     <div class="mb-3">
@@ -139,7 +146,6 @@
         const title = button.getAttribute('data-title');
         const desc = button.getAttribute('data-desc');
 
-
         document.getElementById('editForm').action = '/tasks/' + id + '/edit';
         document.getElementById('editTitle').value = title;
         document.getElementById('editDesc').value = desc || '';
@@ -149,10 +155,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
 <script>
-
     const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
     const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
-
 
     const taskList = document.getElementById('taskList');
 
@@ -163,14 +167,11 @@
             delay: 150,
             delayOnTouchOnly: true,
 
-
             onEnd: function () {
-
                 const order = [];
                 taskList.querySelectorAll('.task-card').forEach(card => {
                     order.push(card.getAttribute('data-id'));
                 });
-
 
                 fetch('/tasks/reorder', {
                     method: 'POST',

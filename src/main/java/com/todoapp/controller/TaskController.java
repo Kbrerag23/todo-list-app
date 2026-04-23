@@ -27,8 +27,11 @@ public class TaskController {
     @GetMapping
     public String listTasks(Model model, Authentication auth) {
         User user = getAuthenticatedUser(auth);
+
+        model.addAttribute("user", user);
+
         model.addAttribute("tasks", taskService.getTasksByUser(user));
-        model.addAttribute("newTask", new Task()); // Para el formulario de creación
+        model.addAttribute("newTask", new Task()); 
         return "tasks";
     }
 
