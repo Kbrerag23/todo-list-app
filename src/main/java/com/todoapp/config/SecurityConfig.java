@@ -40,7 +40,9 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/register", "/login", "/forgot-password", "/reset-password", "/css/**", "/img/**").permitAll()
+                        // ¡AQUÍ ESTÁ LA MAGIA! Todos los endpoints públicos permitidos:
+                        .requestMatchers("/", "/register", "/login", "/forgot-password", "/reset-password", "/css/**", "/img/**", "/error").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
