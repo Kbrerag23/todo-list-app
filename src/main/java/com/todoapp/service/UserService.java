@@ -30,6 +30,7 @@ public class UserService {
                 .username(registrationDto.getUsername())
                 .email(registrationDto.getEmail())
                 .password(passwordEncoder.encode(registrationDto.getPassword()))
+                .role("USER") 
                 .build();
 
         return userRepository.save(user);
