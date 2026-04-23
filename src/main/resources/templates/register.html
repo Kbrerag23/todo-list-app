@@ -17,6 +17,8 @@
                     <p class="text-muted">Empieza a organizarte hoy mismo</p>
                 </div>
 
+                <div th:if="${error}" class="alert alert-danger py-2 small text-center" th:text="${error}"></div>
+
                 <form th:action="@{/register}" method="post" id="regForm">
                     <div class="mb-3">
                         <label class="form-label small fw-bold">Nombre de usuario</label>
