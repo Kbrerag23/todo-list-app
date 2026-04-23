@@ -14,13 +14,24 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public User save(UserRegistrationDto registrationDto) {
-        if (userRepository.findByEmail(registrationDto.getEmail()).isPresent()) {
-            throw new RuntimeException("El usuario ya existe");
+        if (!registrationDto.getPassword().equals(registrationDto.getConfirmPassword())) {
+            throw new RuntimeException("Las contraseñas no coinciden.");
         }
+
+        if (userRepository.findByEmail(registrationDto.getEmail()).isPresent()) {
+            throw new RuntimeException("El correo electrónico ya está registrado.");
+        }
+
+        if (userRepository.findByUsername(registrationDto.getUsername()).isPresent()) {
+            throw new RuntimeException("El nombre de usuario ya está en uso. Elige otro.");
+        }
+
         User user = User.builder()
+                .username(registrationDto.getUsername())
                 .email(registrationDto.getEmail())
                 .password(passwordEncoder.encode(registrationDto.getPassword()))
                 .build();
+
         return userRepository.save(user);
     }
 

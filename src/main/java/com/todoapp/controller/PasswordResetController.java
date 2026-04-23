@@ -39,7 +39,14 @@ public class PasswordResetController {
     }
 
     @PostMapping("/reset-password")
-    public String processResetPassword(@RequestParam("token") String token, @RequestParam("password") String password) {
+    public String processResetPassword(@RequestParam("token") String token,
+                                       @RequestParam("password") String password,
+                                       @RequestParam("confirmPassword") String confirmPassword) {
+
+        if (!password.equals(confirmPassword)) {
+            return "redirect:/reset-password?token=" + token + "&error=Las contraseñas no coinciden";
+        }
+
         passwordResetService.changeUserPassword(token, password);
         return "redirect:/login?success=Contraseña actualizada correctamente";
     }

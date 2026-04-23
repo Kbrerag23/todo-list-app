@@ -20,4 +20,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 }

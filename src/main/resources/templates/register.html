@@ -17,21 +17,66 @@
                     <p class="text-muted">Empieza a organizarte hoy mismo</p>
                 </div>
 
-                <form th:action="@{/register}" th:object="${user}" method="post">
+                <form th:action="@{/register}" method="post" id="regForm">
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-muted">Correo Electrónico</label>
-                        <input type="email" th:field="*{email}" class="form-control-modern w-100 bg-white"
-                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="ejemplo@correo.com" required>
-                        <div class="invalid-feedback" th:errors="*{email}"></div>
+                        <label class="form-label small fw-bold">Nombre de usuario</label>
+                        <input type="text" name="username" class="form-control-modern w-100" required placeholder="ej: adria_dev">
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Correo electrónico</label>
+                        <input type="email" name="email" class="form-control-modern w-100" required placeholder="tu@email.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Contraseña</label>
+                        <input type="password" id="pass" name="password" class="form-control-modern w-100" required>
+                        <div class="progress mt-2" style="height: 5px;">
+                            <div id="strengthBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <small id="strengthText" class="text-muted" style="font-size: 0.75rem;">Seguridad: Muy débil</small>
+                    </div>
+
                     <div class="mb-4">
-                        <label class="form-label small fw-bold text-muted">Contraseña</label>
-                        <input type="password" th:field="*{password}" class="form-control-modern w-100 bg-white"
-                               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Mínimo 6 caracteres" required>
-                        <div class="invalid-feedback" th:errors="*{password}"></div>
+                        <label class="form-label small fw-bold">Confirmar contraseña</label>
+                        <input type="password" id="confirmPass" name="confirmPassword" class="form-control-modern w-100" required>
+                        <div id="matchError" class="text-danger small mt-1 d-none">Las contraseñas no coinciden</div>
                     </div>
-                    <button type="submit" class="btn btn-vibrant w-100 mb-3">Registrarme</button>
+
+                    <button type="submit" id="btnReg" class="btn btn-vibrant w-100" disabled>Crear cuenta</button>
                 </form>
+
+                <script>
+                    const pass = document.getElementById('pass');
+                    const confirm = document.getElementById('confirmPass');
+                    const bar = document.getElementById('strengthBar');
+                    const text = document.getElementById('strengthText');
+                    const btn = document.getElementById('btnReg');
+
+                    pass.addEventListener('input', () => {
+                        let score = 0;
+                        if (pass.value.length > 7) score++;
+                        if (/[A-Z]/.test(pass.value)) score++;
+                        if (/[0-9]/.test(pass.value)) score++;
+                        if (/[^A-Za-z0-9]/.test(pass.value)) score++;
+
+                        const colors = ['#dc3545', '#ffc107', '#0dcaf0', '#198754'];
+                        const labels = ['Muy débil', 'Débil', 'Media', 'Fuerte'];
+
+                        bar.style.width = (score * 25) + '%';
+                        bar.style.backgroundColor = colors[score-1] || colors[0];
+                        text.innerText = 'Seguridad: ' + (labels[score-1] || labels[0]);
+                        validate();
+                    });
+
+                    confirm.addEventListener('input', validate);
+
+                    function validate() {
+                        const match = pass.value === confirm.value && pass.value !== "";
+                        document.getElementById('matchError').classList.toggle('d-none', match || confirm.value === "");
+                        btn.disabled = !(match && pass.value.length >= 6);
+                    }
+                </script>
 
                 <p class="text-center text-muted small mb-4">Al registrarte, aceptas nuestros términos.</p>
 
