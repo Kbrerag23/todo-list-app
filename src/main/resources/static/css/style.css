@@ -75,3 +75,36 @@ body {
     border-color: #a855f7;
     transform: scale(1.01);
 }
+
+
+/* MODO OSCURO*/
+
+html[data-theme="dark"] body {
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+html[data-theme="dark"] .bg-white,
+html[data-theme="dark"] .bg-light {
+    background-color: #1e293b !important;
+}
+html[data-theme="dark"] .text-dark,
+html[data-theme="dark"] .text-secondary,
+html[data-theme="dark"] .text-muted {
+    color: #cbd5e1 !important;
+}
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .task-card,
+html[data-theme="dark"] .modal-content {
+    background-color: #1e293b;
+    border-color: #334155;
+    color: #f8fafc;
+}
+html[data-theme="dark"] .form-control-modern,
+html[data-theme="dark"] .form-select {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border-color: #334155;
+}
+html[data-theme="dark"] .form-control-modern::placeholder {
+    color: #64748b;
+}

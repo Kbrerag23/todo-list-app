@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -29,17 +30,18 @@ public class TaskController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String search, // NUEVO BUSCADOR
             Model model, Authentication auth) {
 
         User user = getAuthenticatedUser(auth);
         model.addAttribute("user", user);
 
-        model.addAttribute("tasks", taskService.getFilteredAndSortedTasks(user, status, category, sort));
+        model.addAttribute("tasks", taskService.getFilteredAndSortedTasks(user, status, category, sort, search));
         model.addAttribute("newTask", new Task());
-
         model.addAttribute("currentStatus", status);
         model.addAttribute("currentCategory", category);
         model.addAttribute("currentSort", sort);
+        model.addAttribute("currentSearch", search); // Guardamos la búsqueda actual
 
         return "tasks";
     }
@@ -66,9 +68,10 @@ public class TaskController {
     public String editTask(@PathVariable Long id,
                            @RequestParam String title,
                            @RequestParam String description,
-                           @RequestParam(required = false) String category, // NUEVO
+                           @RequestParam(required = false) String category,
+                           @RequestParam(required = false) LocalDate dueDate,
                            Authentication auth) {
-        taskService.updateTask(id, title, description, category, getAuthenticatedUser(auth));
+        taskService.updateTask(id, title, description, category, dueDate, getAuthenticatedUser(auth));
         return "redirect:/tasks";
     }
 

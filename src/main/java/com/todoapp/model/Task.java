@@ -2,6 +2,8 @@ package com.todoapp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +28,10 @@ public class Task {
     @Column(length = 50)
     private String category;
 
+    @Column(name = "due_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dueDate;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -36,5 +42,16 @@ public class Task {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    public boolean isOverdue() {
+        if (completed || dueDate == null) return false;
+        return dueDate.isBefore(LocalDate.now());
+    }
+
+    public boolean isDueSoon() {
+        if (completed || dueDate == null) return false;
+        LocalDate now = LocalDate.now();
+        return dueDate.isEqual(now) || dueDate.isEqual(now.plusDays(1));
     }
 }
