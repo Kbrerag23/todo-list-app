@@ -25,13 +25,22 @@ public class TaskController {
     }
 
     @GetMapping
-    public String listTasks(Model model, Authentication auth) {
-        User user = getAuthenticatedUser(auth);
+    public String listTasks(
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String sort,
+            Model model, Authentication auth) {
 
+        User user = getAuthenticatedUser(auth);
         model.addAttribute("user", user);
 
-        model.addAttribute("tasks", taskService.getTasksByUser(user));
-        model.addAttribute("newTask", new Task()); 
+        model.addAttribute("tasks", taskService.getFilteredAndSortedTasks(user, status, category, sort));
+        model.addAttribute("newTask", new Task());
+
+        model.addAttribute("currentStatus", status);
+        model.addAttribute("currentCategory", category);
+        model.addAttribute("currentSort", sort);
+
         return "tasks";
     }
 
@@ -57,8 +66,9 @@ public class TaskController {
     public String editTask(@PathVariable Long id,
                            @RequestParam String title,
                            @RequestParam String description,
+                           @RequestParam(required = false) String category, // NUEVO
                            Authentication auth) {
-        taskService.updateTask(id, title, description, getAuthenticatedUser(auth));
+        taskService.updateTask(id, title, description, category, getAuthenticatedUser(auth));
         return "redirect:/tasks";
     }
 

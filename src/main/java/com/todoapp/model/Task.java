@@ -23,6 +23,9 @@ public class Task {
     @Column(name = "position_order")
     private Integer position = 0;
 
+    @Column(length = 50)
+    private String category;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
