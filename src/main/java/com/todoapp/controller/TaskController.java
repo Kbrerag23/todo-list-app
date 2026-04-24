@@ -81,4 +81,31 @@ public class TaskController {
         taskService.updateTasksOrder(taskIds, getAuthenticatedUser(auth));
         return ResponseEntity.ok().build();
     }
+
+
+    @GetMapping("/export")
+    public void exportTasksToCSV(jakarta.servlet.http.HttpServletResponse response, Authentication auth) throws Exception {
+        User user = getAuthenticatedUser(auth);
+        List<Task> tasks = taskService.getFilteredAndSortedTasks(user, null, null, null, null);
+
+
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=\"mis_tareas_todopro.csv\"");
+        response.setCharacterEncoding("UTF-8");
+
+        java.io.PrintWriter writer = response.getWriter();
+        writer.print('\uFEFF');
+        writer.println("ID,Título,Descripción,Estado,Categoría,Fecha Creación,Fecha Límite");
+
+        for (Task task : tasks) {
+            String desc = task.getDescription() != null ? task.getDescription().replace("\"", "\"\"") : "";
+            String cat = task.getCategory() != null ? task.getCategory() : "Sin etiqueta";
+            String due = task.getDueDate() != null ? task.getDueDate().toString() : "Sin fecha";
+            String status = task.isCompleted() ? "Completada" : "Pendiente";
+
+
+            writer.printf("%d,\"%s\",\"%s\",%s,%s,%s,%s\n",
+                    task.getId(), task.getTitle().replace("\"", "\"\""), desc, status, cat, task.getCreatedAt().toLocalDate(), due);
+        }
+    }
 }
