@@ -13,9 +13,8 @@
             line-height: 1.2;
             letter-spacing: -1px;
         }
-        /* Nuevo efecto de color brillante para el texto que resalta sobre fondo oscuro */
         .text-gradient {
-            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -40,43 +39,43 @@
     </div>
 </nav>
 
-<section class="bg-vibrant min-vh-100 d-flex align-items-center" style="padding-top: 100px;">
+<section class="min-vh-100 d-flex align-items-center" style="padding-top: 100px;">
     <div class="container pb-5">
         <div class="row justify-content-center text-center">
             <div class="col-lg-10">
 
-                <h1 class="hero-title fw-bold mb-4 text-white">
+                <h1 class="hero-title fw-bold mb-4 text-dark">
                     Organiza tu trabajo y tu vida, <br class="d-none d-md-block">
                     <span class="text-gradient">al instante.</span>
                 </h1>
 
-                <p class="lead mb-5 mx-auto text-white-50" style="max-width: 600px; font-weight: 300;">
+                <p class="lead mb-5 mx-auto text-muted" style="max-width: 600px; font-weight: 400;">
                     Concéntrate en lo que importa. ToDo Pro te ayuda a gestionar tus tareas diarias de forma sencilla, segura y desde cualquier lugar.
                 </p>
 
                 <div class="d-flex justify-content-center mb-5">
-                    <a th:href="@{/register}" class="btn btn-vibrant btn-lg px-4 px-md-5 py-3 fs-5 shadow-lg">Crear mi cuenta</a>
+                    <a th:href="@{/register}" class="btn btn-vibrant btn-lg px-4 px-md-5 py-3 fs-5 shadow-sm">Crear mi cuenta</a>
                 </div>
 
                 <div class="row g-4 text-start mt-2">
                     <div class="col-md-4">
-                        <div class="card card-auth p-4 h-100 shadow-sm border-0">
+                        <div class="card p-4 h-100 shadow-sm border-0">
                             <i class="bi bi-shield-lock fs-1 mb-3" style="color: #6366f1;"></i>
-                            <h5 class="fw-bold" style="color: var(--text-main);">100% Seguro</h5>
+                            <h5 class="fw-bold text-dark">100% Seguro</h5>
                             <p class="text-muted small mb-0">Autenticación cifrada con BCrypt. Tus datos son solo tuyos.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card card-auth p-4 h-100 shadow-sm border-0">
-                            <i class="bi bi-lightning fs-1 mb-3" style="color: #a855f7;"></i>
-                            <h5 class="fw-bold" style="color: var(--text-main);">Rápido y Dinámico</h5>
+                        <div class="card p-4 h-100 shadow-sm border-0">
+                            <i class="bi bi-lightning fs-1 mb-3" style="color: #6366f1;"></i>
+                            <h5 class="fw-bold text-dark">Rápido y Dinámico</h5>
                             <p class="text-muted small mb-0">Diseño moderno con tecnología Spring Boot 3 de alto rendimiento.</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card card-auth p-4 h-100 shadow-sm border-0">
-                            <i class="bi bi-laptop fs-1 mb-3" style="color: #ec4899;"></i>
-                            <h5 class="fw-bold" style="color: var(--text-main);">Diseño Responsive</h5>
+                        <div class="card p-4 h-100 shadow-sm border-0">
+                            <i class="bi bi-laptop fs-1 mb-3" style="color: #6366f1;"></i>
+                            <h5 class="fw-bold text-dark">Diseño Responsive</h5>
                             <p class="text-muted small mb-0">Gestiona tus tareas desde tu móvil, tablet o PC sin problemas.</p>
                         </div>
                     </div>
