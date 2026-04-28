@@ -28,6 +28,9 @@ public class Task {
     @Column(length = 50)
     private String category;
 
+    @Column(length = 255)
+    private String tags;
+
     @Column(name = "due_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dueDate;

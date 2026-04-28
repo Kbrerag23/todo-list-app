@@ -70,8 +70,9 @@ public class TaskController {
                            @RequestParam String description,
                            @RequestParam(required = false) String category,
                            @RequestParam(required = false) LocalDate dueDate,
+                           @RequestParam(required = false) String tags,
                            Authentication auth) {
-        taskService.updateTask(id, title, description, category, dueDate, getAuthenticatedUser(auth));
+        taskService.updateTask(id, title, description, category, dueDate, tags, getAuthenticatedUser(auth));
         return "redirect:/tasks";
     }
 
@@ -88,24 +89,23 @@ public class TaskController {
         User user = getAuthenticatedUser(auth);
         List<Task> tasks = taskService.getFilteredAndSortedTasks(user, null, null, null, null);
 
-
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=\"mis_tareas_todopro.csv\"");
         response.setCharacterEncoding("UTF-8");
 
         java.io.PrintWriter writer = response.getWriter();
         writer.print('\uFEFF');
-        writer.println("ID,Título,Descripción,Estado,Categoría,Fecha Creación,Fecha Límite");
+        writer.println("ID,Título,Descripción,Estado,Categoría,Tags,Fecha Creación,Fecha Límite");
 
         for (Task task : tasks) {
             String desc = task.getDescription() != null ? task.getDescription().replace("\"", "\"\"") : "";
             String cat = task.getCategory() != null ? task.getCategory() : "Sin etiqueta";
+            String tagsStr = task.getTags() != null ? task.getTags().replace("\"", "\"\"") : "";
             String due = task.getDueDate() != null ? task.getDueDate().toString() : "Sin fecha";
             String status = task.isCompleted() ? "Completada" : "Pendiente";
 
-
-            writer.printf("%d,\"%s\",\"%s\",%s,%s,%s,%s\n",
-                    task.getId(), task.getTitle().replace("\"", "\"\""), desc, status, cat, task.getCreatedAt().toLocalDate(), due);
+            writer.printf("%d,\"%s\",\"%s\",%s,%s,\"%s\",%s,%s\n",
+                    task.getId(), task.getTitle().replace("\"", "\"\""), desc, status, cat, tagsStr, task.getCreatedAt().toLocalDate(), due);
         }
     }
 }

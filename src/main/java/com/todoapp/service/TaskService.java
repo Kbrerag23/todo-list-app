@@ -30,26 +30,22 @@ public class TaskService {
         }
     }
 
-    // NUEVO: Se añade parámetro "search"
     public List<Task> getFilteredAndSortedTasks(User user, String status, String category, String sort, String search) {
         List<Task> tasks = taskRepository.findByUserOrderByPositionAscCreatedAtDesc(user);
         Stream<Task> stream = tasks.stream();
 
-        // Filtro: Estado
         if ("completed".equalsIgnoreCase(status)) stream = stream.filter(Task::isCompleted);
         else if ("pending".equalsIgnoreCase(status)) stream = stream.filter(t -> !t.isCompleted());
 
-        // Filtro: Etiqueta
         if (category != null && !category.isEmpty()) stream = stream.filter(t -> category.equalsIgnoreCase(t.getCategory()));
 
-        // NUEVO Filtro: Búsqueda de texto
         if (search != null && !search.trim().isEmpty()) {
             String keyword = search.toLowerCase();
             stream = stream.filter(t -> t.getTitle().toLowerCase().contains(keyword) ||
-                    (t.getDescription() != null && t.getDescription().toLowerCase().contains(keyword)));
+                    (t.getDescription() != null && t.getDescription().toLowerCase().contains(keyword)) ||
+                    (t.getTags() != null && t.getTags().toLowerCase().contains(keyword)));
         }
 
-        // Filtro: Orden
         if ("newest".equalsIgnoreCase(sort)) stream = stream.sorted(Comparator.comparing(Task::getCreatedAt).reversed());
         else if ("oldest".equalsIgnoreCase(sort)) stream = stream.sorted(Comparator.comparing(Task::getCreatedAt));
 
@@ -78,12 +74,13 @@ public class TaskService {
         return task;
     }
 
-    public void updateTask(Long taskId, String newTitle, String newDescription, String newCategory, LocalDate newDueDate, User user) {
+    public void updateTask(Long taskId, String newTitle, String newDescription, String newCategory, LocalDate newDueDate, String newTags, User user) {
         Task task = getTaskIfBelongsToUser(taskId, user);
         task.setTitle(newTitle);
         task.setDescription(newDescription);
         task.setCategory(newCategory);
         task.setDueDate(newDueDate);
+        task.setTags(newTags);
         taskRepository.save(task);
     }
 }
