@@ -1,5 +1,6 @@
 package com.todoapp.controller;
 
+import com.todoapp.model.Category;
 import com.todoapp.model.Task;
 import com.todoapp.model.User;
 import com.todoapp.repository.CategoryRepository;
@@ -12,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/tasks")
@@ -36,15 +39,22 @@ public class TaskController {
             Model model, Authentication auth) {
 
         User user = getAuthenticatedUser(auth);
-        model.addAttribute("user", user);
 
+        Map<String, String> categoryColors = new HashMap<>();
+        List<Category> allCategories = categoryRepository.findAll();
+        for (Category cat : allCategories) {
+            categoryColors.put(cat.getName(), cat.getColor() != null ? cat.getColor() : "#6c757d");
+        }
+
+        model.addAttribute("user", user);
         model.addAttribute("tasks", taskService.getFilteredAndSortedTasks(user, status, category, sort, search));
         model.addAttribute("newTask", new Task());
         model.addAttribute("currentStatus", status);
         model.addAttribute("currentCategory", category);
         model.addAttribute("currentSort", sort);
         model.addAttribute("currentSearch", search);
-        model.addAttribute("dynamicCategories", categoryRepository.findAll());
+        model.addAttribute("dynamicCategories", allCategories);
+        model.addAttribute("categoryColors", categoryColors);
 
         return "tasks";
     }

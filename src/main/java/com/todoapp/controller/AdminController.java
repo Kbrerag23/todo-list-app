@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -37,8 +40,16 @@ public class AdminController {
     @GetMapping("/users/{id}/tasks")
     public String viewUserTasks(@PathVariable Long id, Model model) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Map<String, String> categoryColors = new HashMap<>();
+        for (Category cat : categoryRepository.findAll()) {
+            categoryColors.put(cat.getName(), cat.getColor() != null ? cat.getColor() : "#6c757d");
+        }
+
         model.addAttribute("targetUser", user);
         model.addAttribute("tasks", taskRepository.findByUserId(id));
+        model.addAttribute("categoryColors", categoryColors);
+
         return "admin-user-tasks";
     }
 
@@ -55,10 +66,11 @@ public class AdminController {
     }
 
     @PostMapping("/categories")
-    public String createCategory(@RequestParam String name) {
+    public String createCategory(@RequestParam String name, @RequestParam(defaultValue = "#6366f1") String color) {
         if (name != null && !name.trim().isEmpty()) {
             Category category = new Category();
             category.setName(name.trim());
+            category.setColor(color);
             categoryRepository.save(category);
         }
         return "redirect:/admin/categories";

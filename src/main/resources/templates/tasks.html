@@ -151,7 +151,10 @@
                                 <span th:if="${task.category == 'Ocio'}" class="badge bg-success rounded-pill small">Ocio</span>
                                 <span th:if="${task.category == 'Hogar'}" class="badge bg-warning text-dark rounded-pill small">Hogar</span>
                                 <span th:if="${task.category == 'Importante'}" class="badge bg-danger rounded-pill small">Importante</span>
-                                <span th:if="${task.category != null and task.category != 'Trabajo' and task.category != 'Clase' and task.category != 'Ocio' and task.category != 'Hogar' and task.category != 'Importante' and task.category != ''}" class="badge bg-secondary rounded-pill small" th:text="${task.category}">Custom</span>
+                                <span th:if="${task.category != null and task.category != 'Trabajo' and task.category != 'Clase' and task.category != 'Ocio' and task.category != 'Hogar' and task.category != 'Importante' and task.category != ''}"
+                                      class="badge rounded-pill small text-white"
+                                      th:style="'background-color: ' + (${categoryColors != null and categoryColors.containsKey(task.category)} ? ${categoryColors.get(task.category)} : '#6c757d')"
+                                      th:text="${task.category}">Custom</span>
                             </div>
                             <small class="text-muted d-block text-truncate task-desc" th:if="${task.description}" th:text="${task.description}"></small>
 

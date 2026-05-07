@@ -24,9 +24,10 @@
     </div>
 
     <div class="card shadow-sm border-0 mb-4 p-4">
-        <form th:action="@{/admin/categories}" method="post" class="d-flex gap-2">
+        <form th:action="@{/admin/categories}" method="post" class="d-flex gap-3 align-items-center">
+            <input type="color" name="color" class="form-control form-control-color border-0 bg-transparent p-0" value="#6366f1" style="width: 45px; height: 45px; cursor: pointer;" title="Elige un color" required>
             <input type="text" name="name" class="form-control-modern w-100" placeholder="Escribe el nombre de la nueva categoría..." required>
-            <button type="submit" class="btn btn-vibrant">Guardar</button>
+            <button type="submit" class="btn btn-vibrant px-4">Guardar</button>
         </form>
     </div>
 
@@ -36,14 +37,16 @@
                 <thead class="table-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Nombre de Categoría</th>
+                    <th>Color y Nombre</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="c : ${categories}">
                     <td th:text="${c.id}">1</td>
-                    <td class="fw-bold" th:text="${c.name}">Categoría</td>
+                    <td class="fw-bold">
+                        <span class="badge rounded-pill text-white" th:style="'background-color: ' + ${c.color}" th:text="${c.name}"></span>
+                    </td>
                     <td>
                         <form th:action="@{'/admin/categories/' + ${c.id} + '/delete'}" method="post" class="m-0">
                             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar esta categoría del sistema?');">

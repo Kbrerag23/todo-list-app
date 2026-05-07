@@ -13,4 +13,7 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(length = 7)
+    private String color;
 }
