@@ -18,6 +18,20 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+            border-color: #6366f1 !important;
+        }
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +47,7 @@
         </a>
 
         <div class="ms-auto d-flex align-items-center gap-2">
-            <a th:href="@{/login}" class="btn btn-outline-primary fw-bold px-3" style="border-color: #6366f1; color: #6366f1;">
+            <a th:href="@{/login}" class="btn btn-outline-vibrant fw-bold px-3">
                 Iniciar Sesión
             </a>
             <a th:href="@{/register}" class="btn btn-vibrant fw-bold d-none d-md-inline-block px-4">
@@ -61,26 +75,29 @@
                     <a th:href="@{/register}" class="btn btn-vibrant btn-lg px-4 px-md-5 py-3 fs-5 shadow-sm">Crear mi cuenta</a>
                 </div>
 
-                <div class="row g-4 text-start mt-2">
+                <div class="row g-4 text-start mt-4">
                     <div class="col-md-4">
-                        <div class="card p-4 h-100 shadow-sm border-0">
-                            <i class="bi bi-shield-lock fs-1 mb-3" style="color: #6366f1;"></i>
-                            <h5 class="fw-bold text-dark">100% Seguro</h5>
-                            <p class="text-muted small mb-0">Autenticación cifrada con BCrypt. Tus datos son solo tuyos.</p>
+                        <div class="bg-white p-4 h-100 rounded-4 border shadow-sm feature-card">
+                            <div class="icon-box d-inline-flex align-items-center justify-content-center rounded-3 mb-4">
+                                <i class="bi bi-shield-lock fs-4"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">100% Seguro</h5>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card p-4 h-100 shadow-sm border-0">
-                            <i class="bi bi-lightning fs-1 mb-3" style="color: #6366f1;"></i>
-                            <h5 class="fw-bold text-dark">Rápido y Dinámico</h5>
-                            <p class="text-muted small mb-0">Diseño moderno con tecnología Spring Boot 3 de alto rendimiento.</p>
+                        <div class="bg-white p-4 h-100 rounded-4 border shadow-sm feature-card">
+                            <div class="icon-box d-inline-flex align-items-center justify-content-center rounded-3 mb-4">
+                                <i class="bi bi-lightning-charge fs-4"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Rápido y Dinámico</h5>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card p-4 h-100 shadow-sm border-0">
-                            <i class="bi bi-laptop fs-1 mb-3" style="color: #6366f1;"></i>
-                            <h5 class="fw-bold text-dark">Diseño Responsive</h5>
-                            <p class="text-muted small mb-0">Gestiona tus tareas desde tu móvil, tablet o PC sin problemas.</p>
+                        <div class="bg-white p-4 h-100 rounded-4 border shadow-sm feature-card">
+                            <div class="icon-box d-inline-flex align-items-center justify-content-center rounded-3 mb-4">
+                                <i class="bi bi-phone fs-4"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-2">Diseño Responsive</h5>
                         </div>
                     </div>
                 </div>
@@ -96,6 +113,10 @@
     window.addEventListener('beforeunload', () => {
         document.getElementById('globalLoader').classList.add('active');
     });
+</script>
+
+<script>
+    if(localStorage.getItem('theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 </script>
 </body>
 </html>

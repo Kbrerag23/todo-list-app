@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PasswordResetTokenRepository tokenRepository; // NUEVO
+    private final PasswordResetTokenRepository tokenRepository;
 
     public User save(UserRegistrationDto registrationDto) {
         if (!registrationDto.getPassword().equals(registrationDto.getConfirmPassword())) {
@@ -42,8 +42,6 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
 
-   
-
     @Transactional
     public void updateUsername(User user, String newUsername) {
         if (!user.getUsername().equals(newUsername)) {
@@ -68,5 +66,12 @@ public class UserService {
     public void deleteAccount(User user) {
         tokenRepository.deleteByUser(user);
         userRepository.delete(user);
+    }
+
+    @Transactional
+    public void promoteToAdmin(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setRole("ADMIN");
+        userRepository.save(user);
     }
 }

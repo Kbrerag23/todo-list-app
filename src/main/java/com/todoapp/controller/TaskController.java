@@ -2,6 +2,7 @@ package com.todoapp.controller;
 
 import com.todoapp.model.Task;
 import com.todoapp.model.User;
+import com.todoapp.repository.CategoryRepository;
 import com.todoapp.service.TaskService;
 import com.todoapp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final UserService userService;
+    private final CategoryRepository categoryRepository;
 
     private User getAuthenticatedUser(Authentication auth) {
         return userService.findByEmail(auth.getName());
@@ -30,7 +32,7 @@ public class TaskController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String sort,
-            @RequestParam(required = false) String search, // NUEVO BUSCADOR
+            @RequestParam(required = false) String search,
             Model model, Authentication auth) {
 
         User user = getAuthenticatedUser(auth);
@@ -41,7 +43,8 @@ public class TaskController {
         model.addAttribute("currentStatus", status);
         model.addAttribute("currentCategory", category);
         model.addAttribute("currentSort", sort);
-        model.addAttribute("currentSearch", search); // Guardamos la búsqueda actual
+        model.addAttribute("currentSearch", search);
+        model.addAttribute("dynamicCategories", categoryRepository.findAll());
 
         return "tasks";
     }
@@ -82,7 +85,6 @@ public class TaskController {
         taskService.updateTasksOrder(taskIds, getAuthenticatedUser(auth));
         return ResponseEntity.ok().build();
     }
-
 
     @GetMapping("/export")
     public void exportTasksToCSV(jakarta.servlet.http.HttpServletResponse response, Authentication auth) throws Exception {

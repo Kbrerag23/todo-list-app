@@ -80,11 +80,12 @@
                             <div class="col-md-3">
                                 <select th:field="*{category}" class="form-control-modern w-100 bg-white text-muted">
                                     <option value="">Sin categoría</option>
-                                    <option value="Trabajo">💼 Trabajo</option>
-                                    <option value="Clase">🎓 Clase</option>
-                                    <option value="Ocio">🎮 Ocio</option>
-                                    <option value="Hogar">🏠 Hogar</option>
-                                    <option value="Importante">🔥 Importante</option>
+                                    <option value="Trabajo">Trabajo</option>
+                                    <option value="Clase">Clase</option>
+                                    <option value="Ocio">Ocio</option>
+                                    <option value="Hogar">Hogar</option>
+                                    <option value="Importante">Importante</option>
+                                    <option th:each="cat : ${dynamicCategories}" th:value="${cat.name}" th:text="${cat.name}"></option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -123,6 +124,7 @@
                         <option value="Ocio" th:selected="${currentCategory == 'Ocio'}">Ocio</option>
                         <option value="Hogar" th:selected="${currentCategory == 'Hogar'}">Hogar</option>
                         <option value="Importante" th:selected="${currentCategory == 'Importante'}">Importante</option>
+                        <option th:each="cat : ${dynamicCategories}" th:value="${cat.name}" th:text="${cat.name}" th:selected="${currentCategory == cat.name}"></option>
                     </select>
                 </div>
                 <div class="col-md-2 text-end">
@@ -149,6 +151,7 @@
                                 <span th:if="${task.category == 'Ocio'}" class="badge bg-success rounded-pill small">Ocio</span>
                                 <span th:if="${task.category == 'Hogar'}" class="badge bg-warning text-dark rounded-pill small">Hogar</span>
                                 <span th:if="${task.category == 'Importante'}" class="badge bg-danger rounded-pill small">Importante</span>
+                                <span th:if="${task.category != null and task.category != 'Trabajo' and task.category != 'Clase' and task.category != 'Ocio' and task.category != 'Hogar' and task.category != 'Importante' and task.category != ''}" class="badge bg-secondary rounded-pill small" th:text="${task.category}">Custom</span>
                             </div>
                             <small class="text-muted d-block text-truncate task-desc" th:if="${task.description}" th:text="${task.description}"></small>
 
@@ -217,6 +220,7 @@
                                 <option value="Ocio">Ocio</option>
                                 <option value="Hogar">Hogar</option>
                                 <option value="Importante">Importante</option>
+                                <option th:each="cat : ${dynamicCategories}" th:value="${cat.name}" th:text="${cat.name}"></option>
                             </select>
                         </div>
                         <div class="col-6">
